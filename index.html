@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terra Indígena | Alquimia da Floresta</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --musgo: #0D110F;
+            --ouro: #D4AF37;
+            --seda: #C0C0C0;
+            --preto-suave: #1a1d1b;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--musgo);
+            color: var(--seda);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0; width: 100%; padding: 20px 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(13, 17, 15, 0.85); backdrop-filter: blur(10px);
+            z-index: 1000; border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .nav-left { display: flex; align-items: center; gap: 20px; }
+        .logo { font-family: 'Playfair Display', serif; color: var(--ouro); font-size: 1.5rem; text-decoration: none; letter-spacing: 2px; }
+        .social-links { display: flex; gap: 15px; }
+        .social-links a { color: var(--ouro); font-size: 1.2rem; transition: 0.3s; }
+        .social-links a:hover { color: var(--seda); transform: translateY(-3px); }
+        .nav-links { display: flex; gap: 25px; }
+        .nav-links a { color: var(--seda); text-decoration: none; font-size: 0.9rem; text-transform: uppercase; transition: 0.3s; }
+        .nav-links a:hover { color: var(--ouro); }
+
+        .hero { height: 100vh; width: 100%; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .hero-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(13, 17, 15, 0.5), rgba(13, 17, 15, 0.9)); z-index: 2; }
+        .hero-content { position: relative; z-index: 3; text-align: center; padding: 0 20px; max-width: 800px; }
+        .hero-content h1 { font-family: 'Playfair Display', serif; color: var(--ouro); font-size: 3.5rem; letter-spacing: 3px; margin-bottom: 15px; text-shadow: 0px 4px 15px rgba(0,0,0,0.6); }
+        .hero-content p { font-size: 1.2rem; color: #f0f0f0; letter-spacing: 1px; text-shadow: 0px 2px 10px rgba(0,0,0,0.8); }
+
+        .grid-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); background: var(--ouro); }
+        .option-box { background: var(--musgo); padding: 100px 40px; text-align: center; transition: 0.5s; }
+        .option-box:hover { background: var(--preto-suave); }
+        .option-box h2 { color: var(--ouro); font-family: 'Playfair Display', serif; margin-bottom: 15px; font-size: 2.2rem; }
+        .option-box p { color: #d1d1d1; line-height: 1.8; margin-bottom: 20px; }
+        .btn { display: inline-block; margin-top: 20px; padding: 12px 40px; border: 1px solid var(--ouro); color: var(--ouro); text-decoration: none; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; cursor: pointer; }
+        .btn:hover { background: var(--ouro); color: var(--musgo); }
+
+        .medicinas-section { padding: 100px 20px; background-color: var(--preto-suave); }
+        .medicinas-title { text-align: center; font-family: 'Playfair Display', serif; color: var(--ouro); font-size: 2.8rem; margin-bottom: 60px; letter-spacing: 2px; }
+        .medicinas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        .medicina-card { background: var(--musgo); border: 1px solid rgba(212, 175, 55, 0.2); padding: 40px 20px; text-align: center; transition: 0.4s; border-radius: 5px; cursor: pointer; }
+        .medicina-card:hover { border-color: var(--ouro); transform: translateY(-10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .medicina-card i { font-size: 2.5rem; color: var(--ouro); margin-bottom: 20px; }
+        .medicina-card h3 { color: var(--seda); font-family: 'Playfair Display', serif; margin-bottom: 12px; font-size: 1.5rem; letter-spacing: 1px; }
+        .medicina-card p { font-size: 0.9rem; color: #aaaaaa; line-height: 1.6; }
+
+        .about-section { padding: 100px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 60px; max-width: 1200px; margin: 0 auto; }
+        .about-image-fallback { width: 100%; min-width: 300px; max-width: 500px; height: 350px; border-radius: 5px; border-bottom: 5px solid var(--ouro); box-shadow: 0 20px 40px rgba(0,0,0,0.5); background: radial-gradient(circle at 50% 80%, rgba(255, 140, 0, 0.15) 0%, rgba(13, 17, 15, 0.95) 70%), linear-gradient(to top, rgba(212, 175, 55, 0.1) 10%, rgba(0, 0, 0, 0) 80%); display: flex; align-items: center; justify-content: center; }
+        .about-image-fallback::before { content: "🔥"; font-size: 5rem; filter: drop-shadow(0px 0px 20px #ff8c00); }
+        .about-text { flex: 1; min-width: 300px; max-width: 550px; }
+        .about-text h2 { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--ouro); margin-bottom: 25px; }
+        .about-text p { line-height: 1.8; margin-bottom: 20px; font-size: 1.1rem; color: #d1d1d1; }
+        .badge { display: inline-block; padding: 8px 20px; border: 1px solid var(--ouro); border-radius: 20px; font-size: 0.85rem; margin-right: 10px; margin-bottom: 10px; color: var(--ouro); background: rgba(212, 175, 55, 0.05); text-decoration: none; transition: 0.3s; }
+        .badge:hover { background: var(--ouro); color: var(--musgo); transform: translateY(-2px); }
+
+        .faq-section { padding: 80px 20px; max-width: 900px; margin: 0 auto; }
+        .faq-item { margin-bottom: 10px; border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 5px; }
+        .faq-question { width: 100%; padding: 20px; background: none; border: none; color: var(--ouro); text-align: left; font-family: 'Playfair Display', serif; font-size: 1.2rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: 0.3s ease-out; background: rgba(255,255,255,0.03); }
+        .faq-answer p { padding: 20px; line-height: 1.6; color: var(--seda); }
+        .faq-item.active .faq-answer { max-height: 500px; }
+
+        .contact-section { padding: 100px 20px; text-align: center; background-color: var(--musgo); border-top: 1px solid rgba(212, 175, 55, 0.1); }
+        .contact-box { max-width: 700px; margin: 0 auto; border: 1px solid var(--ouro); padding: 50px; border-radius: 15px; }
+        .contact-box h2 { color: var(--ouro); font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 20px; }
+        .location-text { font-size: 1.1rem; color: var(--seda); margin-bottom: 30px; line-height: 1.6; }
+        .highlight-address { color: var(--ouro); font-weight: 600; display: block; margin-top: 10px; }
+        
+        footer { padding: 60px 40px; text-align: center; border-top: 1px solid rgba(212, 175, 55, 0.1); background-color: var(--musgo); }
+        .footer-socials { margin-bottom: 20px; display: flex; justify-content: center; gap: 20px; }
+        .footer-socials a { color: var(--ouro); font-size: 1.5rem; transition: 0.3s; }
+        .footer-socials a:hover { color: var(--seda); transform: scale(1.2); }
+        .copyright { font-size: 0.8rem; letter-spacing: 2px; color: #666; }
+
+        .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px; background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center; font-size: 30px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); z-index: 10000; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.3s ease; }
+        .whatsapp-float:hover { background-color: #20ba5a; transform: scale(1.1); }
+
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 11000; overflow-y: auto; }
+        .modal-content { background: var(--preto-suave); max-width: 550px; margin: 50px auto; padding: 40px; border: 1px solid var(--ouro); border-radius: 10px; position: relative; text-align: center; }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 30px; color: var(--ouro); cursor: pointer; }
+        .modal-content h2 { font-family: 'Playfair Display', serif; color: var(--ouro); margin-bottom: 5px; }
+        .modal-product-detail { display: block; color: var(--seda); font-size: 0.9rem; margin-bottom: 25px; opacity: 0.8; letter-spacing: 1px; }
+
+        .form-group { text-align: left; margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.8rem; margin-bottom: 5px; color: var(--ouro); }
+        .form-group input { width: 100%; padding: 10px; background: var(--musgo); border: 1px solid rgba(212, 175, 55, 0.3); color: #fff; border-radius: 4px; }
+        
+        .modal-whatsapp-link { display: flex; align-items: center; justify-content: center; gap: 8px; color: #25d366; text-decoration: none; font-size: 0.85rem; margin-bottom: 20px; transition: 0.3s; }
+        .modal-whatsapp-link:hover { opacity: 0.8; text-decoration: underline; }
+
+        .checkout-footer { margin-top: 30px; border-top: 1px solid rgba(212, 175, 55, 0.2); padding-top: 20px; }
+        .price-total { font-size: 1.5rem; color: var(--ouro); margin-bottom: 20px; }
+
+        @media (max-width: 768px) {
+            nav { padding: 20px 20px; flex-direction: column; gap: 15px; position: relative; }
+            .nav-left { flex-direction: column; gap: 10px; }
+            .nav-links { gap: 15px; }
+            .hero-content h1 { font-size: 2.3rem; }
+            .hero-content p { font-size: 1rem; }
+            .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 25px; }
+            .modal-content { margin: 10px; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-left">
+            <a href="#" class="logo">TERRA INDÍGENA</a>
+            <div class="social-links">
+                <a href="https://www.instagram.com/portalrape" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://chat.whatsapp.com/Hm1rBbFbKeW9AhG1DVztdP" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                <a href="http://t.me/medicinaancestral" target="_blank"><i class="fab fa-telegram"></i></a>
+                <a href="https://www.youtube.com/channel/UCjOu43TCZGeUUtOsQfWkagQ" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.facebook.com/share/18ac6P785z/" target="_blank"><i class="fab fa-facebook"></i></a>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="#">Início</a>
+            <a href="#sobre">Sobre</a>
+            <a href="#medicinas">Medicinas</a>
+            <a href="#conectar">Conectar</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="https://videos.pexels.com/video-files/4321731/4321731-hd_1920_1080_25fps.mp4" type="video/mp4">
+            Seu navegador não suporta vídeos.
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>TERRA INDÍGENA</h1>
+            <p>Portal de Conexão com os Saberes Ancestrais e a Alquimia da Floresta</p>
+        </div>
+    </section>
+
+    <section class="grid-options">
+        <div class="option-box" id="estudar">
+            <h2>Estudar</h2>
+            <p>Mergulhe na Alquimia da Floresta. Cursos e saberes ancestrais para despertar sua medicina interna.</p>
+            <a href="https://go.hotmart.com/P105696878U" class="btn" target="_blank">Saiba Mais</a>
+        </div>
+        <div class="option-box" id="conectar">
+            <h2>Conectar</h2>
+            <p>Agende sua vivência presencial no Instituto Xamânico Céu Caminho de Luz.</p>
+            <a href="#contato" class="btn">Explorar</a>
+        </div>
+    </section>
+
+    <section class="medicinas-section" id="medicinas">
+        <h2 class="medicinas-title">Alquimia da Floresta</h2>
+        <div class="medicinas-grid">
+            <div class="medicina-card" onclick="abrirPagamento('Mulateiro')">
+                <i class="fas fa-tree"></i>
+                <h3>Mulateiro</h3>
+                <p>A força da árvore da juventude. Traz renovação espiritual, firmeza e profunda conexão com o tempo da floresta.</p>
+            </div>
+            <div class="medicina-card" onclick="abrirPagamento('Murici')">
+                <i class="fas fa-seedling"></i>
+                <h3>Murici</h3>
+                <p>Medicina de forte ancoragem e presença. Atua limpando as energias acumuladas no campo físico e sutil.</p>
+            </div>
+            <div class="medicina-card" onclick="abrirPagamento('Samaúma')">
+                <i class="fas fa-gavel"></i>
+                <h3>Samaúma</h3>
+                <p>A rainha da floresta. Conecta diretamente com o Grande Espírito, trazendo proteção divina e expansão da consciência.</p>
+            </div>
+            <div class="medicina-card" onclick="abrirPagamento('Tsunu')">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Tsunu</h3>
+                <p>Uma das cinzas mais tradicionais. Oferece alta clareza mental, equilíbrio, foco e uma limpeza energética profunda.</p>
+            </div>
+            <div class="medicina-card" onclick="abrirPagamento('Cumaru')">
+                <i class="fas fa-gem"></i>
+                <h3>Cumaru</h3>
+                <p>Ancoragem extrema. Indicado para momentos de dispersão, trazendo o ser de volta para o seu centro e eixo de poder.</p>
+            </div>
+            <div class="medicina-card" onclick="abrirPagamento('Paricá')">
+                <i class="fas fa-wind"></i>
+                <h3>Paricá</h3>
+                <p>Abertura do terceiro olho e do campo perceptivo. Traz visões claras, insights espirituais e desobstrução das vias.</p>
+            </div>
+            <div class="medicina-card" onclick="abrirPagamento('Alecrim')">
+                <i class="fas fa-spa"></i>
+                <h3>Alecrim</h3>
+                <p>A medicina da alegria e da vitalidade. Clarea os pensamentos, afasta a negatividade e eleva o ânimo sutil do ser.</p>
+            </div>
+            <div class="medicina-card" onclick="abrirPagamento('Cacau')">
+                <i class="fas fa-fire"></i>
+                <h3>Cacau</h3>
+                <p>Alquimia do coração. Expande a energia do amor amoroso, acolhimento, introspecção afetuosa e cura emocional.</p>
+            </div>
+            <div class="medicina-card" onclick="abrirPagamento('Menta')">
+                <i class="fas fa-snowflake"></i>
+                <h3>Menta</h3>
+                <p>O sopro da refrescância e da purificação. Limpa as vias respiratórias, traz leveza ao espírito e acalma a mente.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="sobre" class="about-section">
+        <div class="about-image-fallback"></div>
+        <div class="about-text">
+            <h2>A Nossa Essência</h2>
+            <p>O <strong>Terra Indígena</strong> nasceu da missão de valorizar e honrar a sabedoria dos povos originários, construindo uma ponte ética, segura e respeitosa entre a floresta e a cidade.</p>
+            <p>Nosso trabalho é dedicado à distribuição consciente de medicinas tradicionais e à promoção do conhecimento por meio do curso <em>Alquimia da Floresta</em>. Com logística própria em Planaltina, atuamos para garantir a qualidade dos produtos, o respeito aos produtores e uma experiência responsável para todos que buscam essa conexão com os saberes ancestrais.</p>
+            <div>
+                <a href="https://g.page/r/Cd0AK8jvGyl8EAE" target="_blank" class="badge">🌿 Ética</a>
+                <a href="https://g.page/r/Cd0AK8jvGyl8EAE" target="_blank" class="badge">🤝 Ancestralidade</a>
+                <a href="https://g.page/r/Cd0AK8jvGyl8EAE" target="_blank" class="badge">📍 Planaltina</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section" id="faq">
+        <h2 class="medicinas-title" style="font-size: 2rem;">Perguntas Frequentes</h2>
+        <div class="faq-item">
+            <button class="faq-question">Como funcionam as entregas? <i class="fas fa-chevron-down"></i></button>
+            <div class="faq-answer"><p>Enviamos para todo o Brasil via Correios. Em Brasília temos logística própria para agilizar seu recebimento.</p></div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question">Quais as formas de pagamento? <i class="fas fa-chevron-down"></i></button>
+            <div class="faq-answer"><p>Aceitamos Pix e Cartão via Mercado Pago. O processo é seguro e garante a proteção da sua compra.</p></div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question">Sobre o curso Alquimia da Floresta <i class="fas fa-chevron-down"></i></button>
+            <div class="faq-answer"><p>É um curso digital focado no despertar da medicina interna e no estudo das medicinas ancestrais, disponível na plataforma Hotmart.</p></div>
+        </div>
+    </section>
+
+    <section id="contato" class="contact-section">
+        <div class="contact-box">
+            <h2>Caminho de Luz</h2>
+            <p class="location-text">
+                Venha vivenciar a força da medicina sagrada em um ambiente de cura e conexão profunda.
+                <span class="highlight-address">📍 Instituto Xamânico Céu Caminho de Luz</span>
+                Rodovia DF-130, Km 04, Chácara 136 - Núcleo Rural Santos Dumont, Planaltina, Brasília.
+            </p>
+            <a href="https://wa.me/5561995088835" class="btn" target="_blank">Agendar Vivência Agora</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-socials">
+            <a href="https://www.instagram.com/portalrape" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://chat.whatsapp.com/Hm1rBbFbKeW9AhG1DVztdP" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="http://t.me/medicinaancestral" target="_blank"><i class="fab fa-telegram"></i></a>
+            <a href="https://www.youtube.com/channel/UCjOu43TCZGeUUtOsQfWkagQ" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.facebook.com/share/18ac6P785z/" target="_blank"><i class="fab fa-facebook"></i></a>
+        </div>
+        <p class="copyright">&copy; 2026 CAMINHO DE LUZ - O PORTAL DA ALQUIMIA</p>
+    </footer>
+
+    <a href="https://wa.me/5561995058835" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <form id="emailForm" action="https://formsubmit.co/aldeiadocaminhovermelho@gmail.com" method="POST" target="hidden_iframe">
+        <input type="hidden" name="Nome" id="mail_nome">
+        <input type="hidden" name="WhatsApp" id="mail_whatsapp"> 
+        <input type="hidden" name="CEP" id="mail_cep">
+        <input type="hidden" name="UF" id="mail_uf">
+        <input type="hidden" name="Endereco" id="mail_end">
+        <input type="hidden" name="Produto" id="mail_prod">
+        <input type="hidden" name="_captcha" value="false">
+    </form>
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+    <div id="pagamentoModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="fecharPagamento()">&times;</span>
+            <h2 id="medicinaNome">Finalizar Pedido</h2>
+            <span class="modal-product-detail">Rapé Indígena - 30g</span>
+            
+            <a href="https://wa.me/5561995058835" target="_blank" class="modal-whatsapp-link">
+                <i class="fab fa-whatsapp"></i> Dúvidas no preenchimento? Fale conosco
+            </a>
+
+            <div class="form-group">
+                <label>Nome Completo</label>
+                <input type="text" id="cli_nome" placeholder="Seu nome">
+            </div>
+
+            <div class="form-group">
+                <label>Número de Contato (WhatsApp)</label>
+                <input type="text" id="cli_whatsapp" placeholder="(00) 00000-0000">
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <div class="form-group" style="flex: 2;">
+                    <label>CEP</label>
+                    <input type="text" id="cli_cep" placeholder="00000-000">
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label>UF</label>
+                    <input type="text" id="cli_uf" placeholder="Ex: DF">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Endereço e Número</label>
+                <input type="text" id="cli_end" placeholder="Rua, quadra, lote...">
+            </div>
+
+            <div class="checkout-footer">
+                <div class="price-total">Total: <strong>R$ 70,00</strong></div>
+                <button onclick="processarPedido()" class="btn" style="width: 100%; text-transform: uppercase;">PAGAR E IDENTIFICAR PRODUTO</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let produtoSelecionado = "";
+
+        function abrirPagamento(nome) {
+            produtoSelecionado = nome;
+            document.getElementById('medicinaNome').innerText = "Adquirir " + nome;
+            document.getElementById('pagamentoModal').style.display = 'block';
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function fecharPagamento() {
+            document.getElementById('pagamentoModal').style.display = 'none';
+            document.body.style.overflow = 'auto'; 
+        }
+
+        function processarPedido() {
+            const nome = document.getElementById('cli_nome').value;
+            const whatsapp = document.getElementById('cli_whatsapp').value;
+            const cep = document.getElementById('cli_cep').value;
+            const uf = document.getElementById('cli_uf').value;
+            const endereco = document.getElementById('cli_end').value;
+            
+            if(!nome || !whatsapp || !cep || !uf || !endereco) {
+                alert("Por favor, preencha todos os campos.");
+                return;
+            }
+
+            // Preencher formulário de e-mail
+            document.getElementById('mail_nome').value = nome;
+            document.getElementById('mail_whatsapp').value = whatsapp;
+            document.getElementById('mail_cep').value = cep;
+            document.getElementById('mail_uf').value = uf;
+            document.getElementById('mail_end').value = endereco;
+            document.getElementById('mail_prod').value = produtoSelecionado;
+            
+            // Enviar e-mail em background
+            document.getElementById('emailForm').submit();
+
+            // REDIRECIONAMENTO: Substitua o link abaixo pelo seu link ATIVO do Mercado Pago
+            setTimeout(function() {
+                // Cole o link novo entre as aspas abaixo
+                window.open("https://mpago.la/32U1fTM", "_blank");
+                fecharPagamento(); 
+            }, 500);
+        }
+
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+
+        // Fechar modal ao clicar fora
+        window.onclick = function(event) {
+            var modal = document.getElementById('pagamentoModal');
+            if (event.target == modal) fecharPagamento();
+        }
+    </script>
+</body>
+</html>
